@@ -33,26 +33,35 @@ Work out what the user wants explained, then fetch it yourself rather than askin
 
 For large diffs, start with `git diff --stat` and read the files that matter in full rather than skimming everything. Read surrounding code (not just the hunks) whenever a hunk can't be understood in isolation: callers, the definition of a changed type, the tests.
 
+## Pacing: small portions, then wait
+
+Never deliver the whole walkthrough in one reply. Explain one chunk, end with a short prompt for what comes next, and stop. The reader steers.
+
+- **Size.** Keep each reply to roughly 150 words, one screen at most. At most one heading per reply. Prefer short paragraphs over nested lists. Keep snippets under about 10 lines.
+- **Always end with a handoff.** One line offering the next step ("Next up: part 3, the tests. Carry on, or questions about this one?"), then stop. Don't pre-answer questions they haven't asked.
+- **Track progress.** Say where you are ("2 of 5 parts done") so the reader knows how much is left. Keep this in the conversation; write no files.
+- **Escape hatches.** If the reader asks for everything at once ("all at once", "tl;dr", "full summary"), give the complete version, kept tight. A tiny diff (a few lines) or a narrow question gets one short answer with no staged flow.
+- **Big diffs.** Say so plainly ("this touches 40 files; I'll group them") and show the `--stat` summary before anything else.
+
 ## How to explain
 
-Go from big picture to detail. Adapt depth to the reader; a one-line question deserves a short answer, not the full walkthrough.
+Go from big picture to detail, one stage per reply unless the reader says otherwise.
 
-1. **The gist.** One or two sentences: what this change accomplishes and why, based on the PR description, commit messages, and the code. If intent is a guess, say so.
-2. **The map.** Group the changed files into a few logical parts (e.g. "new endpoint", "schema migration", "tests") and give the order to read them in. Flag files that are noise: generated code, lockfiles, renames, formatting.
-3. **The walkthrough.** For each part, explain what changed in plain language, quoting short snippets with `file:line` references. Explain *mechanism* (how it works) and *purpose* (why it's needed). Describe behavior before and after where that clarifies things.
-4. **Concepts on demand.** If the change leans on a pattern, library, or language feature the reader may not know, explain it briefly in context, with a small example if needed. Don't lecture on things they didn't ask about.
-5. **Where to look closely.** Point out the spots that carry the most risk or subtlety: tricky logic, changed contracts, concurrency, error handling, migrations, security-sensitive code, behavior changes not covered by tests, and anything that looks inconsistent with the stated intent. Say what to check and why. This is guidance for the reader's own judgment, not a verdict.
+1. **Opening reply: the gist and the map, nothing more.** Start with one or two sentences on what the change accomplishes and why, based on the PR description, commit messages, and the code (if intent is a guess, say so). Then give a numbered list of 3-6 logical parts (e.g. "new endpoint", "schema migration", "tests") with a one-line description each, flagging noise files such as generated code, lockfiles, renames, and formatting. Finish by asking where to start: "Begin at 1, jump to another, or look at the risky spots first?" Then stop.
+2. **One part per reply.** Explain what changed in plain language, quoting a snippet or two with `file:line` references. Cover *mechanism* (how it works) and *purpose* (why it's needed), and before/after behavior where that clarifies. Then offer the next part.
+3. **Concepts on demand.** If a part leans on a pattern, library, or language feature the reader may not know, explain it briefly in context, with a small example if needed. Don't lecture on things they didn't ask about.
+4. **Where to look closely, as its own step.** Offer it after the walkthrough, or sooner if asked. Point out the few spots carrying the most risk or subtlety: tricky logic, changed contracts, concurrency, error handling, migrations, security-sensitive code, behavior changes not covered by tests, and anything inconsistent with the stated intent. Say what to check and why. This is guidance for the reader's own judgment, not a verdict.
 
-Match the format to the question. Use headings and lists for a full walkthrough; use a couple of paragraphs for a narrow question. A diagram or before/after sketch is fine when it truly clarifies flow.
+Adapt depth to the reader. A diagram or before/after sketch is fine when it truly clarifies flow.
 
 ## Instructing the reader
 
-When the user wants to learn how to review, or what to do next, instruct rather than just describe:
+When the user wants to learn how to review, or what to do next, instruct rather than just describe, at the same pace: one suggestion at a time, not a full checklist.
 
 - Suggest a reading order and what to look for at each step.
-- Give concrete questions to ask of the code ("what happens if this list is empty?", "who else calls this function?").
+- Give a concrete question to ask of the code ("what happens if this list is empty?", "who else calls this function?").
 - Offer commands to explore further (`git log -p -- <file>`, `git blame`, running the tests, checking out the branch).
-- If they want to try understanding it themselves first, use the rubber duck move: ask them to talk you through a hunk and what they expect it to do, then fill gaps. Don't force this on someone who just wants the explanation.
+- Occasionally use the rubber duck move: before explaining a hunk, ask the reader what they think it does, then fill gaps. Offer it; don't force it on someone who just wants the explanation.
 
 ## Accuracy
 
