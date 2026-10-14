@@ -1,6 +1,6 @@
 {
   "name": "mallard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mallard explains what is going on in a diff or PR and guides you through reviewing it.",
   "author": { "name": "Brett Jia" },
   "repository": "https://github.com/bjia56/mallard",
