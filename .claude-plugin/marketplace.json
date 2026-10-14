@@ -1,0 +1,12 @@
+{
+  "name": "mallard",
+  "description": "Mallard, a diff and PR explainer.",
+  "owner": { "name": "Brett Jia" },
+  "plugins": [
+    {
+      "name": "mallard",
+      "source": "./",
+      "description": "Explains diffs and PRs in plain language, with a rubber-duck persona."
+    }
+  ]
+}
